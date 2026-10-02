@@ -1,6 +1,8 @@
 ---
 import { copy, experience, games, otherGames, personalProjects, professionalProjects, type Locale } from '../data/portfolio';
 import PersonalProjectCard from './PersonalProjectCard.astro';
+import { Image } from 'astro:assets';
+import portrait from '../assets/projects/me.png';
 import '../styles/global.css';
 
 interface Props { locale: Locale }
@@ -26,8 +28,10 @@ const year = new Date().getFullYear();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <title>{t.title}</title>
+    <noscript><style>.project-group[hidden]{display:block!important}.project-tabs{display:none!important}</style></noscript>
   </head>
   <body>
+    <div class="reading-progress" aria-hidden="true"></div>
     <a class="skip-link" href="#main">{t.skip}</a>
     <div class="site-shell">
       <header class="site-header">
@@ -87,9 +91,8 @@ const year = new Date().getFullYear();
               <p>{t.aboutBody}</p>
               <div class="about-discipline"><span class="asterisk">✳</span>{t.aboutAside}</div>
             </div>
-            <div class="portrait-frame" role="img" aria-label={t.portraitHint}>
-              <!-- Replace this block with <img src="/images/portrait.webp" alt="Portrait of Andrés Ramírez" /> when ready. -->
-              <div class="portrait-placeholder"><span class="portrait-monogram">AR<span>.</span></span><span class="portrait-grid"></span></div>
+            <div class="portrait-frame">
+              <Image src={portrait} alt={t.portraitHint} format="webp" quality={86} loading="lazy" />
               <span class="portrait-note">{t.portrait}</span>
             </div>
           </div>
@@ -98,20 +101,20 @@ const year = new Date().getFullYear();
         <section class="section personal-section" id="personal" aria-labelledby="personal-title">
           <div class="section-label"><span>{t.personalKicker}</span><span class="section-rule"></span></div>
           <div class="section-heading"><h2 id="personal-title">{t.personalTitle}</h2><p>{t.personalDescription}</p></div>
-          <nav class="project-jump" aria-label={locale === 'en' ? 'Personal project categories' : 'Categorías de proyectos personales'}>
-            <a href="#personal-projects"><span>01</span>{t.projectsGroup} <b>{String(personalProjects.length).padStart(2, '0')}</b></a>
-            <a href="#games"><span>02</span>{t.gamesGroup} <b>{String(games.length).padStart(2, '0')}</b></a>
-            <a href="#other-games"><span>03</span>{t.otherGamesGroup} <b>{String(otherGames.length).padStart(2, '0')}</b></a>
-          </nav>
-          <div class="project-group" id="personal-projects">
+          <div class="project-tabs" role="tablist" aria-label={locale === 'en' ? 'Personal project categories' : 'Categorías de proyectos personales'}>
+            <button type="button" role="tab" id="projects-tab" aria-controls="personal-projects" aria-selected="true" tabindex="0" data-project-tab><span>01</span>{t.projectsGroup} <b>{String(personalProjects.length).padStart(2, '0')}</b></button>
+            <button type="button" role="tab" id="games-tab" aria-controls="games" aria-selected="false" tabindex="-1" data-project-tab><span>02</span>{t.gamesGroup} <b>{String(games.length).padStart(2, '0')}</b></button>
+            <button type="button" role="tab" id="other-games-tab" aria-controls="other-games" aria-selected="false" tabindex="-1" data-project-tab><span>03</span>{t.otherGamesGroup} <b>{String(otherGames.length).padStart(2, '0')}</b></button>
+          </div>
+          <div class="project-group" id="personal-projects" role="tabpanel" aria-labelledby="projects-tab" tabindex="0" data-project-panel>
             <div class="project-group-heading"><span>01 / {t.projectsGroup}</span><span>{String(personalProjects.length).padStart(2, '0')}</span></div>
             <div class="project-gallery project-gallery-main">{personalProjects.map((project, index) => <PersonalProjectCard project={project} locale={locale} index={index + 1} featured={index === 0} />)}</div>
           </div>
-          <div class="project-group" id="games">
+          <div class="project-group" id="games" role="tabpanel" aria-labelledby="games-tab" tabindex="0" data-project-panel hidden>
             <div class="project-group-heading"><span>02 / {t.gamesGroup}</span><span>{String(games.length).padStart(2, '0')}</span></div>
             <div class="project-gallery">{games.map((project, index) => <PersonalProjectCard project={project} locale={locale} index={index + 1} />)}</div>
           </div>
-          <div class="project-group" id="other-games">
+          <div class="project-group" id="other-games" role="tabpanel" aria-labelledby="other-games-tab" tabindex="0" data-project-panel hidden>
             <div class="project-group-heading"><span>03 / {t.otherGamesGroup}</span><span>{String(otherGames.length).padStart(2, '0')}</span></div>
             <div class="project-gallery">{otherGames.map((project, index) => <PersonalProjectCard project={project} locale={locale} index={index + 1} />)}</div>
           </div>
@@ -152,13 +155,6 @@ const year = new Date().getFullYear();
 
       <footer class="site-footer"><span>{t.footer}</span><div><a href="https://github.com/gara501" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://aramhack.wordpress.com/" target="_blank" rel="noopener noreferrer">Blog ↗</a><a href="https://www.youtube.com/channel/UCc9WtBjWQ5mgtdzqqQyv_xQ" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div><a href="#main" aria-label={t.backToTop}>↑</a></footer>
     </div>
-    <script>
-      document.querySelectorAll('.mobile-menu nav a').forEach((link) => {
-        link.addEventListener('click', () => {
-          const menu = document.querySelector('.mobile-menu');
-          if (menu instanceof HTMLDetailsElement) menu.open = false;
-        });
-      });
-    </script>
+    <script>import '../scripts/portfolio';</script>
   </body>
 </html>

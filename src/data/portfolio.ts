@@ -1,17 +1,25 @@
 export type Locale = 'en' | 'es';
 import type { ImageMetadata } from 'astro';
 
+import aiGlossary from '../assets/projects/aiGlossary.png';
 import paranormis from '../assets/projects/paranormis.png';
 import scifibooks from '../assets/projects/scifibooks.png';
 import codefloor from '../assets/projects/codefloor.png';
 import becas from '../assets/projects/becas.png';
+import eartquake from '../assets/projects/eartquake.png';
+import fractales from '../assets/projects/fractales.png';
+import jung from '../assets/projects/jung.png';
+import prfit from '../assets/projects/prfit.png';
 import esotemaster from '../assets/projects/esotemaster.png';
+import filosogame from '../assets/projects/filosogame.png';
 import mathero from '../assets/projects/mathero.png';
+import speedreader from '../assets/projects/speedreader.png';
 import kairos from '../assets/projects/kairos.png';
 import simonoverload from '../assets/projects/simonoverload.png';
-import blocks from '../assets/projects/blocks.png';
+import blockTower from '../assets/projects/blockTower.png';
 import pong from '../assets/projects/pong.png';
 import sneezyTyper from '../assets/projects/sneezyTyper.png';
+import keyrythmy from '../assets/projects/keyrythmy.png';
 import deliveryCastle from '../assets/projects/deliveryCastle.png';
 import socio from '../assets/projects/socio.png';
 import hugeadv from '../assets/projects/hugeadv.png';
@@ -64,7 +72,7 @@ export const personalProjects: PersonalProject[] = [
     title: { en: 'AIGlossary', es: 'AIGlossary' },
     description: { en: 'An AI vocabulary guide with definitions and interactive examples.', es: 'Un glosario de inteligencia artificial con definiciones y ejemplos interactivos.' },
     technologies: ['React', 'Vite', 'Tailwind CSS', 'Supabase'],
-    github: 'https://github.com/gara501/iaglossary', live: 'https://gara501.github.io/iaglossary/',
+    github: 'https://github.com/gara501/iaglossary', live: 'https://gara501.github.io/iaglossary/', image: aiGlossary,
   },
   {
     title: { en: 'CameraPlanet', es: 'CameraPlanet' },
@@ -76,25 +84,25 @@ export const personalProjects: PersonalProject[] = [
     title: { en: 'Equakes', es: 'Equakes' },
     description: { en: 'A 3D viewer for seismic activity.', es: 'Un visor en 3D de actividad sísmica.' },
     technologies: ['React', 'Vite', 'Three.js', 'Tailwind CSS', 'Motion'],
-    github: 'https://github.com/gara501/equakes', live: 'https://equakesram.netlify.app/',
+    github: 'https://github.com/gara501/equakes', live: 'https://equakesram.netlify.app/', image: eartquake,
   },
   {
     title: { en: 'Fractales', es: 'Fractales' },
     description: { en: 'An interactive space to explore and visualize fractals.', es: 'Un espacio interactivo para explorar y visualizar fractales.' },
     technologies: ['React', 'Vite', 'Three.js', 'Tailwind CSS', 'Motion', 'GLSL', 'Shaders'],
-    github: 'https://github.com/gara501/amazonqchallenge', live: 'https://gara501.github.io/amazonqchallenge/',
+    github: 'https://github.com/gara501/amazonqchallenge', live: 'https://gara501.github.io/amazonqchallenge/', image: fractales,
   },
   {
     title: { en: 'The Mind of Jung', es: 'La mente de Jung' },
     description: { en: 'An interactive site in honor of Carl Jung.', es: 'Un sitio interactivo en honor a Carl Jung.' },
     technologies: ['React', 'Vite', 'Tailwind CSS', 'Motion'],
-    github: 'https://github.com/gara501/brainmap', live: 'https://mindjung.netlify.app/',
+    github: 'https://github.com/gara501/brainmap', live: 'https://mindjung.netlify.app/', image: jung,
   },
   {
     title: { en: 'Training Routine Manager', es: 'Administrador de rutinas de entrenamiento' },
     description: { en: 'A complete workspace for personal trainers to manage training routines.', es: 'Un sitio completo para que entrenadores personales controlen y administren rutinas de entrenamiento.' },
     technologies: ['React', 'Vite', 'Tailwind CSS', 'Supabase'],
-    live: 'https://prfitram.vercel.app/',
+    live: 'https://prfitram.vercel.app/', image: prfit,
   },
   {
     title: { en: 'Esotemaster', es: 'Esotemaster' },
@@ -109,7 +117,7 @@ export const games: PersonalProject[] = [
     title: { en: 'Filosogame', es: 'Filosogame' },
     description: { en: 'An interactive game of philosophical dilemmas.', es: 'Un juego interactivo de dilemas filosóficos.' },
     technologies: ['React', 'Vite', 'Tailwind CSS', 'Motion', 'Firebase'],
-    github: 'https://github.com/gara501/filosogame', live: 'https://dilemafilo.netlify.app/',
+    github: 'https://github.com/gara501/filosogame', live: 'https://dilemafilo.netlify.app/', image: filosogame,
   },
   {
     title: { en: 'MathHero', es: 'MathHero' },
@@ -121,7 +129,7 @@ export const games: PersonalProject[] = [
     title: { en: 'Speedreader', es: 'Speedreader' },
     description: { en: 'A reading game to practice and improve reading speed.', es: 'Un juego de lectura rápida para mejorar la velocidad de lectura.' },
     technologies: ['React', 'Vite', 'Tailwind CSS', 'Motion'],
-    github: 'https://github.com/gara501/speedreader', live: 'https://gara501.github.io/speedreader/',
+    github: 'https://github.com/gara501/speedreader', live: 'https://gara501.github.io/speedreader/', image: speedreader,
   },
   {
     title: { en: 'Dilemas', es: 'Dilemas' },
@@ -141,7 +149,7 @@ export const otherGames: PersonalProject[] = [
   {
     title: { en: 'Breakable Blocks', es: 'Bloques eliminables' },
     description: { en: 'A breakable blocks game built with Three.js.', es: 'Un juego de bloques eliminables creado con Three.js.' },
-    technologies: ['Three.js'], live: 'https://blocks-three-seven.vercel.app/', image: blocks,
+    technologies: ['Three.js'], live: 'https://blocks-three-seven.vercel.app/', image: blockTower,
   },
   {
     title: { en: 'Pong', es: 'Pong' },
@@ -156,7 +164,7 @@ export const otherGames: PersonalProject[] = [
   {
     title: { en: 'Keyry', es: 'Keyry' },
     description: { en: 'A rhythm game inspired by Dance Dance Revolution.', es: 'Un juego rítmico inspirado en Dance Dance Revolution.' },
-    technologies: ['PhaserJS'], live: 'https://goramirez.itch.io/keyry',
+    technologies: ['PhaserJS'], live: 'https://goramirez.itch.io/keyry', image: keyrythmy,
   },
   {
     title: { en: 'Space Runner', es: 'Space Runner' },
@@ -186,6 +194,14 @@ export const otherGames: PersonalProject[] = [
 ];
 
 export const experience = [
+  {
+    company: 'Globant',
+    role: { en: 'Software Designer, AI Engineer', es: 'Software Designer, AI Engineer' },
+    description: {
+      en: 'Working across projects for the Disney account, setting up development environments with harnesses and specification-driven development using Claude.',
+      es: 'Trabajo en distintos proyectos de la cuenta de Disney, configurando entornos con harnesses y desarrollo guiado por especificaciones con Claude.',
+    },
+  },
   {
     company: 'Huge Inc.',
     role: { en: 'Senior Web Engineer', es: 'Ingeniero web sénior' },
@@ -231,8 +247,8 @@ export const copy = {
     aboutTitle: 'Curious by design. Technical by trade.',
     aboutBody: 'I’m Andrés Ramírez. My work moves between frontend engineering, backend systems and the small details that make a digital experience feel alive. I like working with animation, modern web frameworks and ideas that invite a little experimentation.',
     aboutAside: 'Frontend · Backend · Creative coding',
-    portrait: 'AI portrait coming soon',
-    portraitHint: 'A space reserved for a generated portrait',
+    portrait: 'Illustrated portrait',
+    portraitHint: 'Illustrated portrait of Andrés Ramírez',
     personalKicker: '02 / After hours',
     personalTitle: 'Things I make for the fun of it.',
     personalDescription: 'Experiments, useful tools and games built beyond client work. A living collection of things I wanted to explore.',
@@ -277,8 +293,8 @@ export const copy = {
     aboutTitle: 'Curioso por naturaleza. Técnico por oficio.',
     aboutBody: 'Soy Andrés Ramírez. Mi trabajo se mueve entre la ingeniería frontend, los sistemas backend y los pequeños detalles que dan vida a una experiencia digital. Me gusta trabajar con animación, frameworks web e ideas que invitan a experimentar.',
     aboutAside: 'Frontend · Backend · Código creativo',
-    portrait: 'Retrato con IA próximamente',
-    portraitHint: 'Espacio reservado para un retrato generado',
+    portrait: 'Retrato ilustrado',
+    portraitHint: 'Retrato ilustrado de Andrés Ramírez',
     personalKicker: '02 / Fuera de horario',
     personalTitle: 'Ideas que construyo por gusto.',
     personalDescription: 'Experimentos, herramientas útiles y juegos creados fuera del trabajo con clientes. Una colección viva de ideas que quise explorar.',
