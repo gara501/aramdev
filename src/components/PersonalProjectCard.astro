@@ -1,0 +1,37 @@
+---
+import type { Locale, PersonalProject } from '../data/portfolio';
+import { copy } from '../data/portfolio';
+import { Image } from 'astro:assets';
+
+interface Props {
+  project: PersonalProject;
+  locale: Locale;
+  index: number;
+  featured?: boolean;
+}
+
+const { project, locale, index, featured = false } = Astro.props;
+const t = copy[locale];
+const title = project.title[locale];
+const primaryUrl = project.live ?? project.github;
+---
+
+<article class:list={['project-card', { 'project-card-featured': featured, 'project-card-no-image': !project.image }]}>
+  <a class="project-visual" href={primaryUrl} target="_blank" rel="noopener noreferrer" aria-label={`${t.viewProject}: ${title}`}>
+    {project.image ? (
+      <Image src={project.image} alt={`${t.screenshotOf} ${title}`} loading="lazy" format="webp" quality={85} />
+    ) : (
+      <span class="project-placeholder" aria-hidden="true"><span class="placeholder-glyph">✳</span><strong>{title}</strong><span class="placeholder-index">ARAMCODE / {String(index).padStart(2, '0')}</span></span>
+    )}
+    <span class="project-visual-arrow" aria-hidden="true">↗</span>
+  </a>
+  <div class="project-card-body">
+    <div class="project-card-heading"><span class="project-card-index">{String(index).padStart(2, '0')} /</span><h4>{title}</h4></div>
+    <p class="project-card-description">{project.description[locale]}</p>
+    <ul class="project-tech" aria-label={locale === 'en' ? 'Technologies' : 'Tecnologías'}>{project.technologies.map((technology) => <li>{technology}</li>)}</ul>
+    <div class="project-links">
+      {project.live && <a href={project.live} target="_blank" rel="noopener noreferrer">{t.liveProject} <span aria-hidden="true">↗</span></a>}
+      {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer">{t.sourceCode} <span aria-hidden="true">↗</span></a>}
+    </div>
+  </div>
+</article>
