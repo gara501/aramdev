@@ -21,6 +21,15 @@ const year = new Date().getFullYear();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Save section links before the browser performs its initial fragment jump.
+      if (/^#(main|about|personal|work|experience|contact|personal-projects|games|other-games)$/.test(location.hash)) {
+        document.documentElement.dataset.initialSection = location.hash;
+        document.documentElement.dataset.scrollRestoration = history.scrollRestoration;
+        history.scrollRestoration = 'manual';
+        history.replaceState(history.state, '', location.pathname + location.search);
+      }
+    </script>
     <meta name="description" content={t.description} />
     <meta name="theme-color" content="#f1eee6" />
     <link rel="alternate" hreflang="en" href="/" />
@@ -42,6 +51,7 @@ const year = new Date().getFullYear();
           <span class="brand-name">ANDRÉS<br />RAMÍREZ</span>
         </a>
         <nav class="desktop-nav" aria-label={t.mainNavigation}>
+          <span class="nav-indicator" aria-hidden="true" data-nav-indicator></span>
           <a href="#about">{t.nav.about}</a>
           <a href="#personal">{t.nav.personal}</a>
           <a href="#work">{t.nav.work}</a>
@@ -110,6 +120,7 @@ const year = new Date().getFullYear();
             <button type="button" role="tab" id="games-tab" aria-controls="games" aria-selected="false" tabindex="-1" data-project-tab><span>02</span>{t.gamesGroup} <b>{String(games.length).padStart(2, '0')}</b></button>
             <button type="button" role="tab" id="other-games-tab" aria-controls="other-games" aria-selected="false" tabindex="-1" data-project-tab><span>03</span>{t.otherGamesGroup} <b>{String(otherGames.length).padStart(2, '0')}</b></button>
           </div>
+          <div class="project-panels" data-project-panels>
           <div class="project-group" id="personal-projects" role="tabpanel" aria-labelledby="projects-tab" tabindex="0" data-project-panel>
             <div class="project-group-heading"><span>01 / {t.projectsGroup}</span><span>{String(personalProjects.length).padStart(2, '0')}</span></div>
             <div class="project-filter-bar" data-project-filters hidden>
@@ -125,6 +136,7 @@ const year = new Date().getFullYear();
           <div class="project-group" id="other-games" role="tabpanel" aria-labelledby="other-games-tab" tabindex="0" data-project-panel hidden>
             <div class="project-group-heading"><span>03 / {t.otherGamesGroup}</span><span>{String(otherGames.length).padStart(2, '0')}</span></div>
             <div class="project-gallery">{otherGames.map((project, index) => <PersonalProjectCard project={project} locale={locale} index={index + 1} />)}</div>
+          </div>
           </div>
         </section>
 

@@ -1,5 +1,6 @@
 import { animate, inView, scroll, stagger } from 'motion';
 import './interactions';
+import { animateLayout, animateDialogOpen, closeAnimatedDialog } from './uiAnimations';
 
 const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-project-tab]'));
 const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-project-panel]'));
@@ -83,13 +84,14 @@ document.querySelectorAll<HTMLAnchorElement>('[data-project-preview]').forEach((
     if (!lightbox || !previewImage || !previewTitle || !previewCount || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     const group = link.closest('[data-project-panel]');
-    activePreviews = Array.from(group?.querySelectorAll<HTMLAnchorElement>('[data-project-preview]') ?? [link]).filter((preview) => !preview.closest('.project-card[hidden]'));
+    activePreviews = Array.from(group?.querySelectorAll<HTMLAnchorElement>('[data-project-preview]') ?? [link]).filter((preview) => !preview.closest('.project-card[hidden], .layout-ghost'));
     renderPreview(activePreviews.indexOf(link));
     lightbox.showModal();
+    animateDialogOpen(lightbox);
   });
 });
 
-lightbox?.querySelector('[data-preview-close]')?.addEventListener('click', () => lightbox.close());
+lightbox?.querySelector('[data-preview-close]')?.addEventListener('click', () => closeAnimatedDialog(lightbox));
 lightbox?.querySelector('[data-preview-previous]')?.addEventListener('click', () => renderPreview(previewIndex - 1));
 lightbox?.querySelector('[data-preview-next]')?.addEventListener('click', () => renderPreview(previewIndex + 1));
 lightbox?.addEventListener('keydown', (event) => {
@@ -99,14 +101,14 @@ lightbox?.addEventListener('keydown', (event) => {
 });
 lightbox?.addEventListener('click', (event) => {
   const bounds = lightbox.getBoundingClientRect();
-  if (event.target === lightbox && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) lightbox.close();
+  if (event.target === lightbox && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) closeAnimatedDialog(lightbox);
 });
 lightbox?.addEventListener('close', () => {
   previewImage?.removeAttribute('src');
   activePreviews = [];
 });
 
-function activateTab(tab: HTMLButtonElement, updateUrl = false) {
+function activateTab(tab: HTMLButtonElement, updateUrl = false, animateTransition = true) {
   const activePanelId = tab.getAttribute('aria-controls');
 
   tabs.forEach((item) => {
@@ -115,14 +117,9 @@ function activateTab(tab: HTMLButtonElement, updateUrl = false) {
     item.tabIndex = selected ? 0 : -1;
   });
 
-  panels.forEach((panel) => {
-    panel.hidden = panel.id !== activePanelId;
-  });
-
-  const activePanel = panels.find((panel) => panel.id === activePanelId);
-  if (activePanel && !prefersReducedMotion) {
-    animate(activePanel, { opacity: [0, 1], y: [12, 0] }, { duration: 0.38, ease: [0.22, 1, 0.36, 1] });
-  }
+  const changePanel = () => panels.forEach((panel) => { panel.hidden = panel.id !== activePanelId; });
+  if (animateTransition) animateLayout(document.querySelector('[data-project-panels]'), panels, changePanel);
+  else changePanel();
 
   if (updateUrl && activePanelId) {
     history.replaceState(null, '', `#${activePanelId}`);
@@ -145,10 +142,11 @@ tabs.forEach((tab, index) => {
   });
 });
 
-const tabFromHash = tabs.find((tab) => `#${tab.getAttribute('aria-controls')}` === location.hash);
+const initialHash = document.documentElement.dataset.initialSection ?? location.hash;
+const tabFromHash = tabs.find((tab) => `#${tab.getAttribute('aria-controls')}` === initialHash);
 if (tabFromHash) {
-  activateTab(tabFromHash);
-  requestAnimationFrame(() => document.getElementById(tabFromHash.getAttribute('aria-controls') ?? '')?.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'instant' : 'smooth' }));
+  activateTab(tabFromHash, false, false);
+  if (!document.documentElement.dataset.initialSection) requestAnimationFrame(() => document.getElementById(tabFromHash.getAttribute('aria-controls') ?? '')?.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'instant' : 'smooth' }));
 }
 
 window.addEventListener('hashchange', () => {
@@ -171,7 +169,7 @@ if (!prefersReducedMotion) {
     ease: [0.22, 1, 0.36, 1],
   });
 
-  inView('.section-label, .section-heading, .about-copy, .portrait-frame, .work-card, .experience-item, .contact-content, .project-card', (element) => {
+  inView('.section-label, .section-heading, .about-copy, .portrait-frame, .work-card, .experience-item, .contact-content', (element) => {
     animate(element, { opacity: [0, 1], y: [28, 0] }, {
       duration: 0.68,
       ease: [0.22, 1, 0.36, 1],
