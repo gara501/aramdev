@@ -33,7 +33,7 @@ export type PersonalProject = {
   image?: ImageMetadata;
 };
 
-export const professionalProjects = [
+export const professionalProjects: { name: string; image: string; url?: string; stack: string[] }[] = [
   { name: 'Choice Hotels', image: '/images/choice.png', url: 'https://www.choicehotels.com/', stack: ['AngularJS', 'Sass', 'Gulp', 'Sinon', 'Chai'] },
   { name: 'Google Chromebook', image: '/images/chromebooks.png', url: 'https://www.google.com/chromebook/', stack: ['JavaScript', 'Sass', 'Webpack'] },
   { name: 'Chrome Enterprise', image: '/images/chroment.png', url: 'https://chromeenterprise.google/', stack: ['JavaScript', 'Sass', 'Webpack'] },
@@ -41,6 +41,7 @@ export const professionalProjects = [
   { name: 'The Keyword', image: '/images/keyw.png', url: 'https://blog.google/', stack: ['JavaScript', 'Python', 'Wagtail'] },
   { name: 'PGA Tour', image: '/images/pga.png', url: 'https://www.pgatour.com/', stack: ['React', 'Python', 'Contentful', 'GraphQL'] },
   { name: 'YouTube Blog', image: '/images/yt.png', url: 'https://blog.youtube/', stack: ['JavaScript', 'Python', 'Wagtail'] },
+  { name: 'Disney Data', image: '/images/disney.png', stack: ['React', 'Tailwind CSS', 'Vite', 'Python', 'GraphQL'] },
 ];
 
 export const personalProjects: PersonalProject[] = [
@@ -198,32 +199,32 @@ export const experience = [
     company: 'Globant',
     role: { en: 'Software Designer, AI Engineer', es: 'Software Designer, AI Engineer' },
     description: {
-      en: 'Working across projects for the Disney account, setting up development environments with harnesses and specification-driven development using Claude.',
-      es: 'Trabajo en distintos proyectos de la cuenta de Disney, configurando entornos con harnesses y desarrollo guiado por especificaciones con Claude.',
+      en: 'Own technical quality across Disney account web initiatives: defining architecture, setting development standards and leading specification-driven development with AI harnesses (Claude) to deliver faster with reliable, reviewable code.',
+      es: 'Responsable de la calidad técnica de las iniciativas web de la cuenta de Disney: defino arquitectura, establezco estándares de desarrollo y lidero el desarrollo guiado por especificaciones con harnesses de IA (Claude) para entregar más rápido con código confiable y revisable.',
     },
   },
   {
     company: 'Huge Inc.',
     role: { en: 'Senior Web Engineer', es: 'Ingeniero web sénior' },
     description: {
-      en: 'Worked across projects, primarily with Google, using JavaScript, Python, Wagtail, Django and AWS Lambda.',
-      es: 'Trabajé en distintos proyectos, principalmente con Google, usando JavaScript, Python, Wagtail, Django y AWS Lambda.',
+      en: 'Shipped high-traffic web experiences for Google — The Keyword, YouTube Blog, Chromebook and Chrome Enterprise — with JavaScript, Python, Wagtail, Django and AWS Lambda; also contributed to the PGA Tour platform with React and GraphQL.',
+      es: 'Publiqué experiencias web de alto tráfico para Google — The Keyword, YouTube Blog, Chromebook y Chrome Enterprise — con JavaScript, Python, Wagtail, Django y AWS Lambda; además contribuí a la plataforma del PGA Tour con React y GraphQL.',
     },
   },
   {
     company: 'Prodigious',
     role: { en: 'Principal Front End', es: 'Líder de frontend' },
     description: {
-      en: 'Built frontend experiences for clients including Honda, T-Mobile and Microsoft with React, Vue and Angular.',
-      es: 'Desarrollé experiencias frontend para clientes como Honda, T-Mobile y Microsoft con React, Vue y Angular.',
+      en: 'Led frontend delivery for global brands such as Honda, T-Mobile and Microsoft, building interactive experiences like Honda’s Build & Price configurator with React, Vue and Angular, and setting the team’s component architecture and code standards.',
+      es: 'Lideré la entrega de frontend para marcas globales como Honda, T-Mobile y Microsoft, construyendo experiencias interactivas como el configurador Build & Price de Honda con React, Vue y Angular, y definiendo la arquitectura de componentes y los estándares de código del equipo.',
     },
   },
   {
     company: 'Zemoga',
     role: { en: 'Senior Backend Developer', es: 'Desarrollador backend sénior' },
     description: {
-      en: 'Developed backend projects primarily with .NET and PHP, and also worked with Ruby on Rails.',
-      es: 'Desarrollé proyectos backend principalmente con .NET y PHP, además de trabajar con Ruby on Rails.',
+      en: 'Developed and maintained backend services for global digital campaigns and sites, primarily with .NET and PHP, and also Ruby on Rails — owning data integrations and CMS-driven content pipelines end to end.',
+      es: 'Desarrollé y mantuve servicios backend para campañas y sitios digitales globales, principalmente con .NET y PHP, además de Ruby on Rails — responsable de las integraciones de datos y los pipelines de contenido basados en CMS de principio a fin.',
     },
   },
 ];
@@ -244,7 +245,7 @@ export const copy = {
     getInTouch: 'Get in touch',
     scroll: 'Scroll to explore',
     aboutKicker: '01 / The person behind the code',
-    aboutTitle: 'Curious by design. Technical by trade.',
+    aboutTitle: 'Solid engineering, thoughtful experiences.',
     aboutBody: 'I’m Andrés Ramírez. My work moves between frontend engineering, backend systems and the small details that make a digital experience feel alive. I like working with animation, modern web frameworks and ideas that invite a little experimentation.',
     aboutAside: 'Frontend · Backend · Creative coding',
     portrait: 'Illustrated portrait',
@@ -290,7 +291,7 @@ export const copy = {
     getInTouch: 'Hablemos',
     scroll: 'Desliza para explorar',
     aboutKicker: '01 / Detrás del código',
-    aboutTitle: 'Curioso por naturaleza. Técnico por oficio.',
+    aboutTitle: 'Ingeniería sólida, experiencias cuidadas.',
     aboutBody: 'Soy Andrés Ramírez. Mi trabajo se mueve entre la ingeniería frontend, los sistemas backend y los pequeños detalles que dan vida a una experiencia digital. Me gusta trabajar con animación, frameworks web e ideas que invitan a experimentar.',
     aboutAside: 'Frontend · Backend · Código creativo',
     portrait: 'Retrato ilustrado',

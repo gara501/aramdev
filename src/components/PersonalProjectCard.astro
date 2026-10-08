@@ -1,7 +1,8 @@
 ---
 import type { Locale, PersonalProject } from '../data/portfolio';
 import { copy } from '../data/portfolio';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
+import { describeProject } from '../data/projectPresentation';
 
 interface Props {
   project: PersonalProject;
@@ -14,24 +15,48 @@ const { project, locale, index, featured = false } = Astro.props;
 const t = copy[locale];
 const title = project.title[locale];
 const primaryUrl = project.live ?? project.github;
+const preview = project.image ? await getImage({ src: project.image, format: 'webp', quality: 90 }) : undefined;
+const previewLabel = locale === 'en' ? 'Enlarge preview' : 'Ampliar vista';
+const presentation = describeProject(project, locale);
+const detailId = `detail-${project.title.en.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${index}`;
 ---
 
-<article class:list={['project-card', { 'project-card-featured': featured, 'project-card-no-image': !project.image }]}>
-  <a class="project-visual" href={primaryUrl} target="_blank" rel="noopener noreferrer" aria-label={`${t.viewProject}: ${title}`}>
+<article data-project-categories={presentation.categories.join(' ')} class:list={['project-card', { 'project-card-featured': featured, 'project-card-no-image': !project.image }]}>
+  <a class="project-visual" href={preview?.src ?? primaryUrl} target="_blank" rel="noopener noreferrer" aria-label={`${preview ? previewLabel : t.viewProject}: ${title}`} data-project-preview={preview ? true : undefined} data-project-title={title}>
+    <span class="project-browser-bar" aria-hidden="true"><span class="project-browser-dots"><i></i><i></i><i></i></span><span>{title}</span><span>↗</span></span>
     {project.image ? (
-      <Image src={project.image} alt={`${t.screenshotOf} ${title}`} loading="lazy" format="webp" quality={85} />
+      <Image src={project.image} alt={`${t.screenshotOf} ${title}`} loading="lazy" format="webp" quality={85} sizes={featured ? '(max-width: 900px) 90vw, 58vw' : '(max-width: 650px) 90vw, 45vw'} />
     ) : (
       <span class="project-placeholder" aria-hidden="true"><span class="placeholder-glyph">✳</span><strong>{title}</strong><span class="placeholder-index">ARAMCODE / {String(index).padStart(2, '0')}</span></span>
     )}
-    <span class="project-visual-arrow" aria-hidden="true">↗</span>
+    <span class="project-visual-arrow" aria-hidden="true">{preview ? previewLabel : t.viewProject} <span>↗</span></span>
   </a>
   <div class="project-card-body">
+    {featured && <p class="project-featured-label">{locale === 'en' ? 'Featured project' : 'Proyecto destacado'}</p>}
     <div class="project-card-heading"><span class="project-card-index">{String(index).padStart(2, '0')} /</span><h4>{title}</h4></div>
     <p class="project-card-description">{project.description[locale]}</p>
     <ul class="project-tech" aria-label={locale === 'en' ? 'Technologies' : 'Tecnologías'}>{project.technologies.map((technology) => <li>{technology}</li>)}</ul>
     <div class="project-links">
+      <button type="button" class="project-detail-trigger" data-project-detail={detailId} aria-haspopup="dialog" hidden>{locale === 'en' ? 'Explore project' : 'Explorar proyecto'} <span aria-hidden="true">↗</span></button>
       {project.live && <a href={project.live} target="_blank" rel="noopener noreferrer">{t.liveProject} <span aria-hidden="true">↗</span></a>}
       {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer">{t.sourceCode} <span aria-hidden="true">↗</span></a>}
     </div>
   </div>
+  <template id={detailId}>
+    <div class="project-detail-layout">
+      {preview && <a class="project-detail-image" href={preview.src} target="_blank" rel="noopener noreferrer" aria-label={`${previewLabel}: ${title}`}><img src={preview.src} alt={`${t.screenshotOf} ${title}`} /><span>{previewLabel} ↗</span></a>}
+      <div class="project-detail-copy">
+        <p class="project-detail-eyebrow">{locale === 'en' ? 'Personal project / Andrés Ramírez' : 'Proyecto personal / Andrés Ramírez'}</p>
+        <h2 data-detail-title>{title}</h2>
+        <p>{project.description[locale]}</p>
+        <h3>{locale === 'en' ? 'The idea' : 'La idea'}</h3><p>{presentation.focus}</p>
+        <h3>{locale === 'en' ? 'Built with' : 'Construido con'}</h3>
+        <ul class="project-tech">{project.technologies.map((technology) => <li>{technology}</li>)}</ul>
+        <div class="project-links">
+          {project.live && <a href={project.live} target="_blank" rel="noopener noreferrer">{t.liveProject} ↗</a>}
+          {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer">{t.sourceCode} ↗</a>}
+        </div>
+      </div>
+    </div>
+  </template>
 </article>
